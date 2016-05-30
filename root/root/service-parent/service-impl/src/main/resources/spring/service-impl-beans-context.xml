@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:cxf="http://cxf.apache.org/core" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd"
+>
+    <import resource="classpath:spring/cxf-interceptor-beans-context.xml" />
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+    <cxf:bus>
+        <cxf:inInterceptors>
+            <ref bean="logInInterceptor"></ref>
+            <ref bean="correlationInInterceptor"></ref>
+        </cxf:inInterceptors>
+        <cxf:outInterceptors>
+            <ref bean="logOutInterceptor"></ref>
+            <ref bean="correlationOutInterceptor"></ref>
+        </cxf:outInterceptors>
+    </cxf:bus>
+    <bean id="personService" class="com.erbre.documentation.service.impl.PersonServicePortTypeImpl" />
+    <jaxws:endpoint id="personServiceEndPoint" implementor="#personService" address="/person-service">
+    </jaxws:endpoint>
+    
+    
+    <bean id="personRestService" class="com.erbre.documentation.service.impl.PersonServiceRestImpl" />
+    <jaxrs:server id="personRestServer" address="/person-resource">
+        <jaxrs:serviceBeans>
+            <ref bean="personRestService"></ref>
+        </jaxrs:serviceBeans>
+    </jaxrs:server>
+</beans>

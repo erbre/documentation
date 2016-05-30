@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.erbre.com/documentation/model"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tns="http://www.erbre.com/documentation/model"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_1.xsd
+                        http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd"
+    elementFormDefault="qualified">
+    <element
+        name="personList"
+        type="tns:PersonListType"></element>
+    <element
+        name="person"
+        type="tns:PersonType"></element>
+    <element
+        name="address"
+        type="tns:AddressType"></element>
+    <element
+        name="country"
+        type="tns:CountryType"></element>
+    <complexType name="CountryType">
+        <sequence>
+            <element
+                name="id"
+                type="long" />
+            <element
+                name="name"
+                type="string" />
+            <element
+                name="code"
+                type="string" />
+        </sequence>
+    </complexType>
+    <complexType name="AddressType">
+        <sequence>
+            <element
+                name="id"
+                type="long" />
+            <element
+                name="street"
+                type="string" />
+            <element
+                name="city"
+                type="string" />
+            <element
+                name="zipCode"
+                type="string" />
+            <element
+                name="country"
+                type="tns:CountryType"></element>
+        </sequence>
+    </complexType>
+    <complexType name="PersonType">
+        <sequence>
+            <element
+                name="id"
+                type="long" />
+            <element
+                name="firstName"
+                type="string" />
+            <element
+                name="lastName"
+                type="string" />
+            <element
+                name="address"
+                type="tns:AddressType"
+                minOccurs="0"></element>
+        </sequence>
+    </complexType>
+    <complexType name="PersonListType">
+        <sequence>
+            <element
+                name="items"
+                type="tns:PersonType"
+                minOccurs="0"
+                maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+</schema>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.erbre.com/documentation/test"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:annox="http://annox.dev.java.net"
+	xmlns:tns="http://www.erbre.com/documentation/test"
+	jaxb:extensionBindingPrefixes="annox" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_1.xsd
+                        http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd"
+	elementFormDefault="qualified">
+    <element name="person" type="tns:PersonType"></element>
+	<element name="address" type="tns:AddressType"></element>
+    <element name="country" type="tns:CountryType"></element>
+    <complexType name="CountryType">
+		<sequence>
+			<element name="id" type="long" />
+			<element name="name" type="string" />
+			<element name="code" type="string" />
+		</sequence>
+	</complexType>
+	<complexType name="AddressType">
+		<annotation>
+			<appinfo>
+				<annox:annotate>@javax.persistence.Entity</annox:annotate>
+			</appinfo>
+		</annotation>
+		<sequence>
+			<element name="id" type="long">
+				<annotation>
+					<appinfo>
+						<annox:annotate>@java.lang.SuppressWarnings({"unchecked","rawtypes"})
+						</annox:annotate>
+						<annox:annotate target="setter">@java.lang.Deprecated
+						</annox:annotate>
+						<annox:annotate target="setter-parameter">@java.lang.Deprecated
+						</annox:annotate>
+						<annox:annotate target="getter">@java.lang.Deprecated
+						</annox:annotate>
+						<annox:annotate target="field">@java.lang.Deprecated
+						</annox:annotate>
+						<annox:annotate target="class">@java.lang.Deprecated
+						</annox:annotate>
+					</appinfo>
+				</annotation>
+			</element>
+			<element name="street" type="string" />
+			<element name="city" type="string" />
+			<element name="zipCode" type="string" />
+			<element name="country" type="tns:CountryType"></element>
+		</sequence>
+	</complexType>
+	<complexType name="PersonType">
+		<sequence>
+			<element name="id" type="long" />
+			<element name="firstName" type="string" />
+			<element name="lastName" type="string" />
+			<element name="address" type="tns:AddressType" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+</schema>

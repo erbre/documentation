@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Application status</title>
+<link rel="stylesheet" type="text/css" media="all" href="./../webjars/bootstrap/3.1.0/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.1.0/css/bootstrap.min.css}"/>
+</head>
+<body>
+  <h1>Application status</h1>
+  <h2>Global Information</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>key</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="p,iterStat : ${globalInformation}" th:class="${iterStat.odd}?'odd':'even'">
+        <td th:text="${p.key}">key</td>
+        <td th:text="${p.value}">value</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>System Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>key</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="p,iterStat : ${systemProperties}" th:class="${iterStat.odd}?'odd':'even'">
+        <td th:text="${p.key}">key</td>
+        <td th:text="${p.value}">value</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Environnement Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>key</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="p,iterStat : ${envProperties}" th:class="${iterStat.odd}?'odd':'even'">
+        <td th:text="${p.key}">key</td>
+        <td th:text="${p.value}">value</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>

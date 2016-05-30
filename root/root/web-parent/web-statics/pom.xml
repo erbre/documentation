@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.erbre.documentation</groupId>
+        <artifactId>web-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>web-statics</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <useSubDirectoryPerArtifact>true</useSubDirectoryPerArtifact>
+                            <includeGroupIds>org.webjars</includeGroupIds>
+                            <excludeArtifactIds>webjars-locator,webjars-locator-core</excludeArtifactIds>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>generate-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <echo message="copy css" />
+                                <mkdir dir="./target/generated/statics/libs/css/" />
+                                <copy todir="./target/generated/statics/libs/css/">
+                                    <fileset dir="./target/dependency">
+                                        <include name="**/*.css" />
+                                    </fileset>
+                                    <mapper type="flatten" />
+                                </copy>
+                                <echo message="css copy to ./target/generated/statics/libs/css/" />
+                                <echo message="copy js" />
+                                <mkdir dir="./target/generated/statics/libs/js/" />
+                                <copy todir="./target/generated/statics/libs/js//">
+                                    <fileset dir="./target/dependency">
+                                        <include name="**/*.js" />
+                                    </fileset>
+                                    <mapper type="flatten" />
+                                </copy>
+                                <echo message="js copy to ./target/generated/statics/libs/js/" />
+                                <echo message="copy less" />
+                                <mkdir dir="./target/generated/statics/libs/less/" />
+                                <copy todir="./target/generated/statics/libs/less/">
+                                    <fileset dir="./target/dependency">
+                                        <include name="**/*.less" />
+                                    </fileset>
+                                    <mapper type="flatten" />
+                                </copy>
+                                <echo message="less copy to ./target/generated/statics/libs/less/" />
+                                <echo message="copy font" />
+                                <mkdir dir="./target/generated/statics/libs/fonts/" />
+                                <copy todir="./target/generated/statics/libs/fonts/">
+                                    <fileset dir="./target/dependency">
+                                        <include name="**/fonts/*.*" />
+                                    </fileset>
+                                    <mapper type="flatten" />
+                                </copy>
+                                <echo message="less copy to ./target/generated/statics/libs/fonts/" />
+                                <echo message="copy statics libs" />
+                                <mkdir dir="./target/generated/statics/libs/libs/" />
+                                <copy todir="./target/generated/statics/libs/libs/">
+                                    <fileset dir="./target/dependency">
+                                        <include name="**/webjars/**" />
+                                    </fileset>
+                                    <cutdirsmapper dirs="4" />
+                                </copy>
+                                <echo message="less copy to ./target/generated/statics/libs/fonts/" />
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd 
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd "
+>
+    <bean id="mapperInterne" class="org.dozer.spring.DozerBeanMapperFactoryBean">
+        <property name="mappingFiles" value="classpath*:dozer/*.xml" />
+        <!-- <property name="customConverters"> <list> <bean class="org.dozer.converters.CustomConverter" 
+            /> </list> </property> -->
+        <property name="eventListeners">
+            <list>
+                <bean
+                    class="com.erbre.documentation.utils.dozer.MyDozerEventListener" />
+            </list>
+        </property>
+        <property name="factories">
+            <map>
+                <entry key="jaxbFactory" value-ref="jaxb-bean-factory" />
+            </map>
+        </property>
+    </bean>
+    <bean id="jaxb-bean-factory" class="com.erbre.documentation.utils.dozer.JaxbBeanFactory">
+        <property name="factories">
+            <list>
+                <value>com.erbre.documentation.model.ObjectFactory</value>
+                <value>com.erbre.documentation.person_service_message.v1.ObjectFactory</value>
+                <value>com.erbre.documentation.v1.ObjectFactory</value>
+            </list>
+        </property>
+    </bean>
+</beans>

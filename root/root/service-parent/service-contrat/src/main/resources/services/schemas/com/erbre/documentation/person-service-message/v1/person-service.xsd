@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.erbre.com/documentation/person-service-message/v1/"
+    xmlns:tns="http://www.erbre.com/documentation/person-service-message/v1/"
+    xmlns:doc="http://www.erbre.com/documentation/v1/"
+    elementFormDefault="qualified"
+    version="1.0">
+
+    <import
+        schemaLocation="../../v1/documentation.xsd"
+        namespace="http://www.erbre.com/documentation/v1/"></import>
+
+    <element name="findAllRequest" type="tns:FindAllRequestType"/>
+    <element name="findAllResponse" type="tns:FindAllResponseType"/>
+    <complexType name="FindAllRequestType" />
+    <complexType name="FindAllResponseType">
+        <sequence>
+            <element
+                name="result"
+                type="doc:PersonListType"></element>
+        </sequence>
+    </complexType>
+
+</schema>
