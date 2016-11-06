@@ -26,4 +26,5 @@
             <ref bean="personRestService"></ref>
         </jaxrs:serviceBeans>
     </jaxrs:server>
+    
 </beans>

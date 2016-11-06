@@ -1,4 +1,4 @@
-package come.erbre.documentation.cxf.interceptor;
+package com.erbre.documentation.cxf.interceptor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,9 +52,16 @@ public final class CorrelationIdManager {
             headers = new HashMap<String, List<String>>(2);
         }
         CorrelationId id = getCorrelationId();
-        String user = id.getUser();
-        String uuid = id.getUuid();
-
+        String user = null;
+        String uuid = null;
+        if (id == null) {
+            LOGGER.warn("no correlation id");
+            user = UNKNOWN_USER;
+            uuid = UUID.randomUUID().toString();
+        } else {
+            user = id.getUser();
+            uuid = id.getUuid();
+        }
         headers.put(HEADERS.UUID.name(), newList(uuid));
         headers.put(HEADERS.USER.name(), newList(user));
         return headers;

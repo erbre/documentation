@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.erbre.documentation</groupId>
+        <artifactId>root</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>lib</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>utils</module>
+        <module>cxf-interceptor</module>
+        <module>appstatus</module>
+    </modules>
+    <groupId>com.erbre.documentation</groupId>
+</project>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+>
+    <bean class="com.erbre.documentation.appstatus.page.TemplateEngineImpl" init-method="init">
+    </bean>
+    <bean id="modelManager" class="com.erbre.appstatus.aop.model.ModelManager">
+    </bean>
+    <bean id="asyncMesureSender" class="com.erbre.appstatus.aop.mesure.AsyncMesureSender">
+        <property name="receiver" ref="modelManager" />
+    </bean>
+    <bean id="mesureManager" class="com.erbre.appstatus.aop.mesure.FullMesureManager">
+        <property name="sender" ref="asyncMesureSender"></property>
+    </bean>
+    <bean class="com.erbre.appstatus.aop.notif.FullNotifManager">
+        <property name="receiver" ref="mesureManager"></property>
+    </bean>
+    <bean id="appstatus" class="net.sf.appstatus.core.AppStatus" init-method="init">
+        <property name="objectInstanciationListener">
+            <bean class="net.sf.appstatus.support.spring.SpringObjectInstantiationListener" />
+        </property>
+        <property name="batchManager">
+            <bean class="net.sf.appstatus.batch.InProcessBatchManager" />
+        </property>
+        <property name="serviceManager" ref="serviceManager" />
+        <!-- Status Checkers -->
+        <property name="checkers">
+            <list>
+                <bean class="net.sf.appstatus.core.check.impl.JvmCheck" />
+                <bean class="net.sf.appstatus.core.check.impl.ServicesPerformanceCheck" />
+                <bean class="net.sf.appstatus.core.check.impl.ServicesFailureCheck" />
+                <bean class="com.erbre.documentation.appstatus.FlywayDataBaseCheck" />
+                <!-- Insert your own here -->
+            </list>
+        </property>
+        <!-- Property providers -->
+        <property name="propertyProviders">
+            <list>
+                <bean class="net.sf.appstatus.core.property.impl.JvmPropertyProvider" />
+                <bean class="net.sf.appstatus.core.property.impl.WarMavenVersionProvider" />
+                <bean class="com.erbre.documentation.appstatus.ThreadMXBeanPropertiesProvider" />
+                <bean class="com.erbre.documentation.appstatus.RuntimeMXBeanPropertiesProvider" />
+                <bean class="com.erbre.documentation.appstatus.MemoryMXBeanPropertiesProvider" />
+                <bean class="com.erbre.documentation.appstatus.OsMXBeanPropertiesProvider" />
+            </list>
+        </property>
+    </bean>
+    <bean id="serviceManager" class="net.sf.appstatus.services.InProcessServiceManager">
+        <!-- Configuration -->
+        <property name="configuration">
+            <props>
+                <prop key="services.useThreadLocal">true</prop>
+                <prop key="services.minMaxDelay">10</prop>
+            </props>
+        </property>
+    </bean>
+    <!-- Monitor your code with AOP -->
+    <bean id="appStatusInterceptor" class="net.sf.appstatus.support.aop.AppStatusServiceInterceptor">
+        <property name="serviceManager" ref="serviceManager" />
+    </bean>
+    <aop:config>
+        <!-- Configure advisor to match all interesting code (usually Controlers, Services) -->
+        <aop:advisor id="serviceCallAdvisor" advice-ref="appStatusInterceptor" pointcut="execution(public * com.erbre.documentation.service.impl.*.*(..))" />
+    </aop:config>
+</beans>

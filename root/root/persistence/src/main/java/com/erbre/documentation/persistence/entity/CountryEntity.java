@@ -8,7 +8,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Country")
+@Table(name = "COUNTRY")
 @SequenceGenerator(name = "COUNTRY_SEQ", sequenceName = "COUNTRY_ID_SEQ")
 public class CountryEntity {
 

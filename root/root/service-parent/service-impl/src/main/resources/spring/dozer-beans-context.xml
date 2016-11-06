@@ -12,7 +12,7 @@
         <property name="eventListeners">
             <list>
                 <bean
-                    class="com.erbre.documentation.utils.dozer.MyDozerEventListener" />
+                    class="com.erbre.documentation.dozer.MyDozerEventListener" />
             </list>
         </property>
         <property name="factories">
@@ -21,7 +21,7 @@
             </map>
         </property>
     </bean>
-    <bean id="jaxb-bean-factory" class="com.erbre.documentation.utils.dozer.JaxbBeanFactory">
+    <bean id="jaxb-bean-factory" class="com.erbre.documentation.dozer.JaxbBeanFactory">
         <property name="factories">
             <list>
                 <value>com.erbre.documentation.person_service_message.v1.ObjectFactory</value>

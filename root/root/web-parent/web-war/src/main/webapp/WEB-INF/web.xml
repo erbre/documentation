@@ -3,12 +3,19 @@
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1"
 >
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>WEB-INF/classes/spring/application-context.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>documentationWebServlet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>WEB-INF/classes/spring/application-context.xml</param-value>
+            <param-value></param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -16,4 +23,52 @@
         <servlet-name>documentationWebServlet</servlet-name>
         <url-pattern>/documentation/*</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>appstatusWebServlet</servlet-name>
+        <servlet-class>com.erbre.appstatus.web.AppStatusServlet</servlet-class>
+        <init-param>
+            <param-name>bean</param-name>
+            <param-value>appstatus</param-value>
+        </init-param>
+        <init-param>
+            <param-name>bean2</param-name>
+            <param-value>appstatus2</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>appstatusWebServlet</servlet-name>
+        <url-pattern>/appstatus2</url-pattern>
+        <url-pattern>/appstatus2/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>status</servlet-name>
+        <servlet-class>net.sf.appstatus.web.StatusServlet</servlet-class>
+        <init-param>
+            <param-name>bean</param-name>
+            <param-value>appstatus</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>status</servlet-name>
+        <url-pattern>/appstatus</url-pattern>
+    </servlet-mapping>
+    <security-constraint>
+        <display-name>Supervision</display-name>
+        <web-resource-collection>
+            <web-resource-name>appstatus</web-resource-name>
+            <url-pattern>/appstatus</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>Espace administration et supervision</realm-name>
+    </login-config>
+    <security-role>
+        <role-name>admin</role-name>
+    </security-role>
 </web-app>

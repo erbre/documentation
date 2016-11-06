@@ -15,9 +15,9 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd 
 	http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd">
 
-    <bean id="logInInterceptor" class="come.erbre.documentation.cxf.interceptor.LogInInterceptor"/>
-    <bean id="logOutInterceptor" class="come.erbre.documentation.cxf.interceptor.LogOutInterceptor"/>
-    <bean id="correlationInInterceptor" class="come.erbre.documentation.cxf.interceptor.CorrelationInInterceptor"/>
-    <bean id="correlationOutInterceptor" class="come.erbre.documentation.cxf.interceptor.CorrelationOutInterceptor"/>
+    <bean id="logInInterceptor" class="com.erbre.documentation.cxf.interceptor.LogInInterceptor"/>
+    <bean id="logOutInterceptor" class="com.erbre.documentation.cxf.interceptor.LogOutInterceptor"/>
+    <bean id="correlationInInterceptor" class="com.erbre.documentation.cxf.interceptor.CorrelationInInterceptor"/>
+    <bean id="correlationOutInterceptor" class="com.erbre.documentation.cxf.interceptor.CorrelationOutInterceptor"/>
  
 </beans>

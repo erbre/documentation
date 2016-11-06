@@ -8,7 +8,9 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import come.erbre.documentation.cxf.interceptor.CorrelationIdManager.HEADERS;
+import com.erbre.documentation.cxf.interceptor.CorrelationId;
+import com.erbre.documentation.cxf.interceptor.CorrelationIdManager;
+import com.erbre.documentation.cxf.interceptor.CorrelationIdManager.HEADERS;
 
 public final class CorrelationIdManagerTest {
 

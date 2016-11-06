@@ -16,6 +16,7 @@
 
 
     <import resource="service-impl-beans-context.xml" />
+    <import resource="appstatus-service-impl-beans-context.xml" />
     <import resource="dozer-beans-context.xml" />
 
 </beans>

@@ -83,7 +83,11 @@
         </dependency>
         <dependency>
             <groupId>com.erbre.documentation</groupId>
-            <artifactId>utils</artifactId>
+            <artifactId>dozer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.erbre.documentation</groupId>
+            <artifactId>appstatus</artifactId>
         </dependency>
 
     </dependencies>

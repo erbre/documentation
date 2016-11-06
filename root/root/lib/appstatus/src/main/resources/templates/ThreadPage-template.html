@@ -1,0 +1,126 @@
+<h1>Thread Details</h1>
+<h2>VM Info</h2>
+<#assign isThreadCpu = threadCpuTimeSupported && threadCpuTimeEnabled>
+
+<div>
+  <ul class="list-group">
+    <li class="list-group-item">Thread CPU Time : <#if threadCpuTimeSupported> <span class="label label-success">supported</span> <#else> <span
+      class="label label-default">unsupported</span> </#if><#if threadCpuTimeEnabled> <span class="label label-success">enabled</span> <#else> <span
+      class="label label-default">disabled</span></#if><#if !isThreadCpu><span class="label label-default">no cpu time stats</span></#if>
+    </li>
+    <li class="list-group-item">Object Monitor : <#if objectMonitorSupported> <span class="label label-success">supported</span> <#else> <span
+      class="label label-default">unsupported</span> </#if>
+    </li>
+    <li class="list-group-item">Synchronizer Usage : <#if synchronizerUsageSupported> <span class="label label-success">supported</span> <#else> <span
+      class="label label-default">unsupported</span> </#if>
+    </li>
+    <li class="list-group-item">Contention Monitoring : <#if threadContentionMonitoringEnabled> <span class="label label-success">enabled</span> <#else> <span
+      class="label label-default">disabled : no blocked and waited time stats</span> </#if>
+    </li>
+  </ul>
+</div>
+<h2>Thread Count</h2>
+<div>
+  <ul class="list-group">
+    <li class="list-group-item">Total Started : <span class="badge">${totalStartedThreadCount}</span></li>
+    <li class="list-group-item">Peak : <span class="badge">${peakThreadCount}</span></li>
+    <li class="list-group-item">Living :
+      <ul class="list-group">
+        <li class="list-group-item">Daemon : <span class="badge">${daemonThreadCount}</span></li>
+        <li class="list-group-item">NonDaemon : <span class="badge">${nonDaemonThreadCount}</span></li>
+        <li class="list-group-item">Total : <span class="badge">${threadCount}</span>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<h2>Thread Info</h2>
+<table class="table table-striped table-hover table-condensed">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>State</th> <#if isThreadCpu>
+      <th>CPU Time</th>
+      <th>User Time</th> </#if>
+      <th>In Native</th>
+      <th>Suspended</th>
+      <th>Lock</th>
+      <th>Block Count</th> <#if threadContentionMonitoringEnabled>
+      <th>Block Time</th> </#if>
+      <th>Waited Count</th> <#if threadContentionMonitoringEnabled>
+      <th>Waited Time</th> </#if>
+      <th>Stack Trace</th>
+    </tr>
+  </thead>
+  <tbody>
+    <#list threads as thread>
+    <tr>
+      <td>${thread.id}</td>
+      <td>${thread.name}</td>
+      <td>${thread.state}</td> <#if isThreadCpu>
+      <td>${thread.cpuTime}</td>
+      <td>${thread.userTime}</td> </#if>
+      <td>${thread.inNative?c}</td>
+      <td>${thread.suspended?c}</td> <#if thread.lockName?? || thread.lockOwnerName??>
+      <td data-toggle="tooltip" data-placement="top"
+        title="<#if thread.lockName??>Lock Name[${thread.lockName}]</#if> <#if thread.lockOwnerName??>Lock Owner Name[${thread.lockOwnerName}]</#if>"><span
+        class="label label-warning">true</span></td> <#else>
+      <td>false</td></#if>
+      <td>${thread.blockedCount}</td> <#if threadContentionMonitoringEnabled>
+      <td>${thread.blockedTime}</td> </#if>
+      <td>${thread.waitedCount}</td> <#if threadContentionMonitoringEnabled>
+      <td>${thread.waitedTime}</td> </#if> <#if thread.stackTrace??> <#assign stackTrace=""> <#list thread.stackTrace as stackLine> <#assign
+      stackTrace=stackTrace+stackLine.className+"."+stackLine.methodName+"("+stackLine.lineNumber+")"> </#list>
+      <td><form method="GET">
+          <input type="hidden" name="p" value="${page}"><input type="hidden" name="id" value="${thread.id}">
+          <button class="btn btn-info" data-toggle="tooltip" data-placement="left" title="${stackTrace}" type="submit">show</button>
+        </form></td> <#else>
+      <td>N/A</td> </#if>
+    </tr>
+    </#list>
+  </tbody>
+  <tfoot>
+    <tr class="info">
+      <th>${threadCount}</th>
+      <th>TOTAL</th>
+      <th></th> <#if isThreadCpu>
+      <th>${totalCpuTime}</th>
+      <th>${totalUserTime}</th> </#if>
+      <th></th>
+      <th>${totalSuspended}</th>
+      <th>${totalLocked}</th>
+      <th>${totalBlockedCount}</th> <#if threadContentionMonitoringEnabled>
+      <th>${totalBlockedTime}</th> </#if>
+      <th>${totalWaitingCount}</th> <#if threadContentionMonitoringEnabled>
+      <th>${totalWaitingTime}</th> </#if>
+      <th></th>
+    </tr>
+  </tfoot>
+</table>
+
+<#if threadDetails??>
+<h2>Stack Trace Thread[${threadDetails.id}]:[${threadDetails.name}]</h2>
+<table class="table table-striped table-hover table-condensed">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Class</th>
+      <th>Method</th>
+      <th>Line</th>
+      <th>native</th>
+    </tr>
+  </thead>
+  <tbody>
+  <#list threadDetails.stackTrace as stackLine>
+    <tr>
+      <td>${stackLine?counter}</td>
+      <td>${stackLine.className}</td>
+      <td>${stackLine.methodName}</td>
+      <td>${stackLine.lineNumber}</td>
+      <td>${stackLine.nativeMethod?c}</td>
+    </tr>
+    </#list>
+  </tbody>
+</table>
+</#if>

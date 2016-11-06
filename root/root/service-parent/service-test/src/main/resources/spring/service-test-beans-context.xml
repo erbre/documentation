@@ -1,8 +1,8 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
-    xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:jaxrs-client="http://cxf.apache.org/jaxrs-client"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd http://cxf.apache.org/jaxrs-client http://cxf.apache.org/schemas/jaxrs-client.xsd"
 >
-    <jaxws:client id="personServiceClient"
-        serviceClass="com.erbre.documentation.person_service.v1.PersonServicePortType"
-        address="http://localhost:8081/service-war/services/person-service" />
+    <jaxws:client id="personServiceClientSoap" serviceClass="com.erbre.documentation.person_service.v1.PersonServicePortType" address="http://localhost:8081/service-war/services/person-service" />
+    <jaxrs-client:client id="personServiceClientRest" serviceClass="com.erbre.documentation.service.contrat.PersonServiceRest" address="http://localhost:8081/service-war/rest/person-resource">
+    </jaxrs-client:client>
 </beans>

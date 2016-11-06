@@ -12,7 +12,7 @@ import com.erbre.documentation.model.AddressType;
 import com.erbre.documentation.model.CountryType;
 import com.erbre.documentation.model.ObjectFactory;
 import com.erbre.documentation.model.PersonType;
-import com.erbre.documentation.utils.dozer.JaxbBeanFactory;
+import com.erbre.documentation.dozer.JaxbBeanFactory;
 
 /**
  * Unit test for simple App.

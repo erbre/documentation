@@ -1,4 +1,4 @@
-package come.erbre.documentation.cxf.interceptor;
+package com.erbre.documentation.cxf.interceptor;
 
 import java.util.Collection;
 import java.util.Set;
@@ -18,6 +18,8 @@ public abstract class AbstractLogInterceptor<T extends Message> extends Abstract
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractLogInterceptor.class.getName());
 
+    protected abstract String getInterceptorName();
+
     @Override
     public void handleMessage(T message) throws Fault {
         trace(message);
@@ -25,18 +27,20 @@ public abstract class AbstractLogInterceptor<T extends Message> extends Abstract
 
     private void trace(T message) {
         if (LOGGER.isInfoEnabled()) {
+            LOGGER.info(String.format("CXF Log Interceptor [%s]", getInterceptorName()));
             String id = message.getId();
             LOGGER.info(String.format("Message id[%s]", id));
             message.forEach((k, v) -> LOGGER.info(String.format("key[%s] value[%s]", k, v)));
-//            Set<String> keys = message.getContextualPropertyKeys();
-//            if (keys == null || keys.isEmpty()) {
-//                LOGGER.info("No Message Contextual Property");
-//            } else {
-//                for (String key : keys) {
-//                    LOGGER.info(String.format("Message Contextual Property [%s]=[%s]", key,
-//                            message.getContextualProperty(key)));
-//                }
-//            }
+            // Set<String> keys = message.getContextualPropertyKeys();
+            // if (keys == null || keys.isEmpty()) {
+            // LOGGER.info("No Message Contextual Property");
+            // } else {
+            // for (String key : keys) {
+            // LOGGER.info(String.format("Message Contextual Property
+            // [%s]=[%s]", key,
+            // message.getContextualProperty(key)));
+            // }
+            // }
             Set<Class<?>> formats = message.getContentFormats();
             if (formats == null || formats.isEmpty()) {
                 LOGGER.info("No Message Content Format");

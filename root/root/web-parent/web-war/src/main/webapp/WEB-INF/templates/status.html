@@ -3,57 +3,53 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Application status</title>
-<link rel="stylesheet" type="text/css" media="all" href="./../webjars/bootstrap/3.1.0/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.1.0/css/bootstrap.min.css}"/>
+<link rel="stylesheet" type="text/css" media="all" href="./../../../../../../web-statics/target/generated/statics/libs/bootstrap/3.3.6/css/bootstrap.min.css"
+  th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/webjars/jquery/1.11.1/jquery.js}" src="./../../../../../../web-statics/target/generated/statics/libs/jquery/1.11.1/jquery.js"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}" src="./../../../../../../web-statics/target/generated/statics/libs/bootstrap/3.3.6/js/bootstrap.js"></script>
+
 </head>
 <body>
+
+
+
+
   <h1>Application status</h1>
-  <h2>Global Information</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>key</th>
-        <th>Value</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr th:each="p,iterStat : ${globalInformation}" th:class="${iterStat.odd}?'odd':'even'">
-        <td th:text="${p.key}">key</td>
-        <td th:text="${p.value}">value</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h2>System Properties</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>key</th>
-        <th>Value</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr th:each="p,iterStat : ${systemProperties}" th:class="${iterStat.odd}?'odd':'even'">
-        <td th:text="${p.key}">key</td>
-        <td th:text="${p.value}">value</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h2>Environnement Properties</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>key</th>
-        <th>Value</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr th:each="p,iterStat : ${envProperties}" th:class="${iterStat.odd}?'odd':'even'">
-        <td th:text="${p.key}">key</td>
-        <td th:text="${p.value}">value</td>
-      </tr>
-    </tbody>
-  </table>
-
+    
+  
+    <div class="panel-group" id="information" role="tablist" aria-multiselectable="true">
+      <div th:each="s : ${statusInformation}">
+        <div class="panel panel-info">
+          <div class="panel-heading" role="tab" th:id="${s.key}" id="key">
+            <h4 class="panel-title">
+              <a role="button" data-toggle="collapse" data-parent="#information" th:href="'#collapse'+${s.key}" href="#collapseKey" aria-expanded="true"
+                th:aria-controls="'collapse'+${s.key}" aria-controls="collapseKey" th:text="${s.key}">key</a>
+            </h4>
+          </div>
+          <div th:id="'collapse'+${s.key}" id="collapseKey" class="panel-collapse collapse in" role="tabpanel" th:aria-labelledby="${s.key}" aria-labelledby="key">
+            <div class="panel-body">
+              <table class="table table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>key</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="p,iterStat : ${s.value}" th:class="${iterStat.odd}?'odd':'even'">
+                    <th th:text="${iterStat.index}">1
+                    <td th:text="${p.key}">key</td>
+                    <td th:text="${p.value}">value</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  
 </body>
 </html>

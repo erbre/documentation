@@ -1,0 +1,108 @@
+<h1>Call Tree</h1>
+<#if error??>
+<div class="alert alert-danger" role="alert">
+  <ul>
+    <#list error as e>
+    <li>${e}</li> </#list>
+  </ul>
+</div>
+</#if> <#if warn??>
+<div class="alert alert-warning" role="alert">
+  <ul>
+    <#list warn as e>
+    <li>${e}</li> </#list>
+  </ul>
+</div>
+</#if>
+
+<h2>List</h2>
+<table id="treeTable" class="table table-striped table-hover table-condensed treeTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Min Time</th>
+      <th>Avg Time</th>
+      <th>Max Time</th>
+      <th>Request</th>
+      <th>Hit</th>
+      <th>Success</th>
+      <th>Error</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <#list trees as value>
+    <tr data-tt-id="${value.idTarget}">
+      <td>${value.idTarget}</td>
+      <td>${value.minTime}</td>
+      <td>${value.avgTime}</td>
+      <td>${value.maxTime}</td>
+      <td>${value.hitRequest}</td>
+      <td>${value.count}</td>
+      <td>${value.successCount}</td>
+      <td>${value.errorCount}</td>
+    </tr>
+    <@childNode node=value parent=value.idTarget/> </#list>
+  </tbody>
+</table>
+
+
+<#macro childNode node parent> <#if node.children??> <#list node.children?keys as key> <#assign value=node.children[key]/> <#assign
+rowId="${parent}-${value.idTarget}"/>
+<tr data-tt-id="${rowId}" data-tt-parent-id="${parent}">
+  <td>${value.idTarget}</td>
+  <td>${value.minTime}</td>
+  <td>${value.avgTime}</td>
+  <td>${value.maxTime}</td>
+  <td>${value.hitRequest}</td>
+  <td>${value.count}</td>
+  <td>${value.successCount}</td>
+  <td>${value.errorCount}</td>
+</tr>
+<@childNode node=value parent=rowId/> </#list> </#if> </#macro>
+
+
+
+<h2>Object</h2>
+<table id="objectTable" class="table table-striped table-hover table-condensed treeTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Min Time</th>
+      <th>Avg Time</th>
+      <th>Max Time</th>
+      <th>Hit</th>
+      <th>Success</th>
+      <th>Error</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <#list objects as value>
+    <tr data-tt-id="${value.idTarget}">
+      <td>${value.idTarget}</td>
+      <td>${value.minTime}</td>
+      <td>${value.avgTime}</td>
+      <td>${value.maxTime}</td>
+      <td>${value.count}</td>
+      <td>${value.successCount}</td>
+      <td>${value.errorCount}</td>
+    </tr>
+    </#list>
+  </tbody>
+</table>
+
+
+
+
+<link href="resources/statics/libs/jquery-treetable/3.2.0/css/jquery.treetable.theme.default.css" rel="stylesheet" type="text/css" />
+<link href="resources/statics/libs/jquery-treetable/3.2.0/css/jquery.treetable.css" rel="stylesheet" type="text/css" />
+<script src="resources/statics/libs/jquery-treetable/3.2.0/jquery.treetable.js"></script>
+<script>
+	$("#treeTable").treetable({
+		expandable : true
+	});
+	$("#objectTable").treetable({
+		expandable : true
+	});
+</script>

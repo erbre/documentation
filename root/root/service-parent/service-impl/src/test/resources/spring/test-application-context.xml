@@ -10,7 +10,7 @@
 	http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd"
 >
     <context:property-placeholder location="classpath:databaseTest.properties" />
-    <import resource="persistence-beans-context.xml" />
+    <import resource="classpath:spring/persistence-beans-context.xml" />
     <import resource="test-dozer-beans-context.xml" />
     <import resource="service-impl-beans-context.xml" />
     <import resource="classpath:spring/cxf-interceptor-beans-context.xml" />

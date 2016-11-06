@@ -29,6 +29,44 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>CXFServletJavaxRS</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>status</servlet-name>
+        <servlet-class>net.sf.appstatus.web.StatusServlet</servlet-class>
+        <init-param>
+            <param-name>bean</param-name>
+            <param-value>appstatus</param-value>
+        </init-param>
+        <init-param>
+            <param-name>custom-pages</param-name>
+            <param-value>memoryPage,threadPage,propertiesPage,librariesPage,modelPage</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>status</servlet-name>
+        <url-pattern>/appstatus</url-pattern>
+    </servlet-mapping>
+    <security-constraint>
+        <display-name>Supervision</display-name>
+        <web-resource-collection>
+            <web-resource-name>appstatus</web-resource-name>
+            <url-pattern>/appstatus</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>Espace administration et supervision</realm-name>
+    </login-config>
+    <security-role>
+        <role-name>admin</role-name>
+    </security-role>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
         <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
 </web-app>

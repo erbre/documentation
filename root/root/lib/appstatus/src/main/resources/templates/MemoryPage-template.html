@@ -1,0 +1,215 @@
+<h1>Memory Details</h1>
+
+<#if heapPercent gt 80 >
+<div class="alert alert-danger" role="alert">
+  HEAP Memory usage:
+  <div class="progress">
+    <div class="progress-bar progress-bar-error" role="progressbar" aria-valuenow="${heapPercent}" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+      <span class="sr-only">${heapPercent}% of memory used : Status=ERROR</span>
+    </div>
+  </div>
+</div>
+<#elseif heapPercent gt 60>
+<div class="alert alert-warning" role="alert">
+  HEAP Memory usage:
+  <div class="progress">
+    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="${heapPercent}" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+      <span class="sr-only">${heapPercent}% of memory used : Status=WARNING</span>
+    </div>
+  </div>
+</div>
+<#elseif heapPercent gt 30>
+<div class="alert alert-success" role="alert">
+  HEAP Memory usage:
+  <div class="progress">
+    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="${heapPercent}" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+      <span class="sr-only">${heapPercent}% of memory used : Status=NORMAL</span>
+    </div>
+  </div>
+</div>
+<#else>
+<div class="alert alert-info" role="alert">
+  HEAP Memory usage:
+  <div class="progress">
+    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="${heapPercent}" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+      <span class="sr-only">${heapPercent}% of memory used : Status=LOW</span>
+    </div>
+  </div>
+</div>
+</#if>
+<!-- NON HEAP PERCENT -->
+<#if nonHeapPercent??> <#if nonHeapPercent gt 80 >
+<div class="alert alert-danger" role="alert">
+  NON HEAP Memory usage:
+  <div class="progress">
+    <div class="progress-bar progress-bar-error" role="progressbar" aria-valuenow="${nonHeapPercent}" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+      <span class="sr-only">${nonHeapPercent}% of memory used : Status=ERROR</span>
+    </div>
+  </div>
+</div>
+<#elseif nonHeapPercent gt 60>
+<div class="alert alert-warning" role="alert">
+  NON HEAP Memory usage:
+  <div class="progress">
+    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="${nonHeapPercent}" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+      <span class="sr-only">${nonHeapPercent}% of memory used : Status=WARNING</span>
+    </div>
+  </div>
+</div>
+<#elseif nonHeapPercent gt 30>
+<div class="alert alert-success" role="alert">
+  NON HEAP Memory usage:
+  <div class="progress">
+    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="${nonHeapPercent}" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+      <span class="sr-only">${nonHeapPercent}% of memory used : Status=NORMAL</span>
+    </div>
+  </div>
+</div>
+<#else>
+<div class="alert alert-info" role="alert">
+  NON HEAP Memory usage:
+  <div class="progress">
+    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="${nonHeapPercent}" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+      <span class="sr-only">${nonHeapPercent}% of memory used : Status=LOW</span>
+    </div>
+  </div>
+</div>
+</#if> <#else>
+<div class="alert alert-info" role="alert">
+  <span>NON HEAP Memory Unavailable</span>
+</div>
+</#if>
+<span class="label label-info">Object pending finalization<span class="badge">${objectPendingFinalization}</span>
+</span>
+<h2>Heap/NonHeap</h2>
+<table class="table table-striped table-hover table-condensed">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Commited</th>
+      <th>Init</th>
+      <th>Used</th>
+      <th>Max</th>
+      <th>Free</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Heap</td>
+      <td>${heapCommited}</td>
+      <td>${heapInit}</td>
+      <td>${heapUsed}</td>
+      <td>${heapMax}</td>
+      <td>${heapFree}</td>
+    </tr>
+    <tr>
+      <td>Non Heap</td>
+      <td>${nonHeapCommited}</td>
+      <td>${nonHeapInit}</td>
+      <td>${nonHeapMax}</td>
+      <td>${nonHeapFree}</td>
+    </tr>
+  </tbody>
+</table>
+<h2>Pool Managers</h2>
+<ul>
+  <#list managers as manager>
+  <li>${manager.name}
+    <ul>
+      <#list manager.pools as pool>
+      <li>${pool}</li> </#list>
+    </ul>
+  </li> </#list>
+</ul>
+<h2>Pools Details</h2>
+<table class="table table-striped table-hover table-condensed">
+  <thead>
+    <tr>
+      <th>Pool Name</th>
+      <th>Type</th>
+      <th>Pool Manager(s)</th>
+      <th>Usage Type</th>
+      <th>Commited</th>
+      <th>Init</th>
+      <th>Max</th>
+      <th>Free</th>
+      <th>Threshold</th>
+      <th>Threshold count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <#list pools as pool>
+    <tr>
+      <td rowspan="3">${pool.name}</td>
+      <td rowspan="3">${pool.type}</td>
+      <td rowspan="3"><ul>
+          <#list pool.managers as manager>
+          <li>${manager}</li></#list>
+        </ul></td>
+      <td>Collection</td> <#if pool.collectionSupported>
+      <td>${pool.collectionCommited}</td>
+      <td>${pool.collectionInit}</td>
+      <td>${pool.collectionMax}</td>
+      <td>${pool.collectionFree}</td> <#if pool.collectionThresholdSupported>
+      <td>${pool.collectionThreshold}</td>
+      <td>${pool.collectionThresholdCount}</td> <#else>
+      <td colspan="2">unsupported</td> </#if> <#else>
+      <td colspan="6">unsupported</td> </#if>
+    </tr>
+    <tr>
+      <td>Usage</td> <#if pool.usageSupported>
+      <td>${pool.usageCommited}</td>
+      <td>${pool.usageInit}</td>
+      <td>${pool.usageMax}</td>
+      <td>${pool.usageFree}</td> <#if pool.usageThresholdSupported>
+      <td>${pool.usageThreshold}</td>
+      <td>${pool.usageThresholdCount}</td> <#else>
+      <td colspan="2">unsupported</td> </#if> <#else>
+      <td colspan="6">unsupported</td> </#if>
+    </tr>
+    <tr>
+      <td>Peak</td> <#if pool.peakSupported>
+      <td>${pool.peakCommited}</td>
+      <td>${pool.peakInit}</td>
+      <td>${pool.peakMax}</td>
+      <td>${pool.peakFree}</td>
+      <td colspan="2">N/A</td><#else>
+      <td colspan="6">unsupported</td> </#if>
+    </tr>
+
+    </#list>
+  </tbody>
+</table>
+<h2>ClassLoader</h2>
+<div>
+  <ul class="list-group">
+    <li class="list-group-item">Verbose : ${classloading.verbose?c}</li>
+    <li class="list-group-item">Class Count :
+      <ul class="list-group">
+        <li class="list-group-item">Loaded Class : <span class="badge">${classloading.loadedClassCount}</span></li>
+        <li class="list-group-item">Unloaded Class : <span class="badge">${classloading.unloadedClassCount}</span></li>
+        <li class="list-group-item">Total : <span class="badge">${classloading.totalLoadedClassCount}</span>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<h2>Garbage collectors</h2>
+<div>
+  <ul class="list-group">
+    <#list garbageCollectors as garbageCollector>
+    <li class="list-group-item">GarbageCollector [${garbageCollector.name}]</li>
+    <ul class="list-group">
+      <li class="list-group-item">Collection Count : <span class="badge">${garbageCollector.collectionCount}</span></li>
+      <li class="list-group-item">Collection Time : <span class="badge">${garbageCollector.collectionTime}</span></li>
+      <li class="list-group-item">Memory Pools :
+        <ul class="list-group">
+        <#list garbageCollector.pools as pool>
+          <li class="list-group-item">${pool}</li>
+        </#list>
+        </ul>
+      </li>
+    </ul>
+    </li> </#list>
+  </ul>
+</div>

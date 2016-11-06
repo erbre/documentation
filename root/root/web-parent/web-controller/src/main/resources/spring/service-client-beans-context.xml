@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cxf="http://cxf.apache.org/core"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:jaxrs-client="http://cxf.apache.org/jaxrs-client"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd 
+    http://cxf.apache.org/jaxrs-client http://cxf.apache.org/schemas/jaxrs-client.xsd"
+>
+    <import resource="classpath:spring/cxf-interceptor-beans-context.xml" />
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+   
+    <cxf:bus>
+        <cxf:inInterceptors>
+            <ref bean="logInInterceptor"></ref>
+            <ref bean="correlationInInterceptor"></ref>
+        </cxf:inInterceptors>
+        <cxf:outInterceptors>
+            <ref bean="logOutInterceptor"></ref>
+            <ref bean="correlationOutInterceptor"></ref>
+        </cxf:outInterceptors>
+    </cxf:bus>
+    
+    
+    
+    <jaxrs-client:client id="personRestClient" address="http://localhost:8081/service-war/resources/person-resource" serviceClass="com.erbre.documentation.service.contrat.PersonServiceRest"
+        inheritHeaders="true"
+    >
+        <jaxrs-client:headers>
+            <entry key="Accept" value="text/xml" />
+        </jaxrs-client:headers>
+    </jaxrs-client:client>
+</beans>

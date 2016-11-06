@@ -1,4 +1,4 @@
-package come.erbre.documentation.cxf.interceptor;
+package com.erbre.documentation.cxf.interceptor;
 
 public final class CorrelationId {
 

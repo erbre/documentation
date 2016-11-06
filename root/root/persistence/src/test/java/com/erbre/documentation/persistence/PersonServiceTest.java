@@ -21,68 +21,70 @@ import com.erbre.documentation.persistence.service.PersonObjectManager;
 @ContextConfiguration(locations = "classpath:spring/test-application-context.xml")
 @Rollback
 public class PersonServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
-	@Inject
-	private PersonObjectManager service;
+    @Inject
+    private PersonObjectManager service;
 
-	@Before
-	public void setUp() {
+    @Before
+    public void setUp() {
 
-	}
+    }
 
-	@Test
-	public void testRead() {
+    @Test
+    public void testRead() {
 
-		Iterable<PersonType> list = service.findAll();
-		if (list != null) {
-			for (PersonType p : list) {
-				PersonType p2 = service.read(p);
-				assertEquals(p, p2);
+        Iterable<PersonType> list = service.findAll();
+        if (list != null) {
+            for (PersonType p : list) {
+                PersonType p2 = service.read(p);
+                assertEquals(p, p2);
 
-			}
-		}
+            }
+        }else {
+            Assert.fail();
+        }
 
-		PersonType person = new ObjectFactory().createPersonType();
-		person.setId(1l);
-		PersonType read = service.read(person);
-		Assert.assertEquals("id", read.getId(), 1);
+        PersonType person = new ObjectFactory().createPersonType();
+        person.setId(1l);
+        PersonType read = service.read(person);
+        Assert.assertEquals("id", read.getId(), 1);
 
-	}
+    }
 
-	private void assertEquals(PersonType p, PersonType p2) {
-		if (p == null) {
-			Assert.assertNull(p2);
-		} else {
-			Assert.assertNotNull(p);
-			Assert.assertEquals(p.getId(), p2.getId());
-			Assert.assertEquals(p.getFirstName(), p2.getFirstName());
-			Assert.assertEquals(p.getLastName(), p2.getLastName());
-			assertEquals(p.getAddress(), p2.getAddress());
-		}
+    private void assertEquals(PersonType p, PersonType p2) {
+        if (p == null) {
+            Assert.assertNull(p2);
+        } else {
+            Assert.assertNotNull(p);
+            Assert.assertEquals(p.getId(), p2.getId());
+            Assert.assertEquals(p.getFirstName(), p2.getFirstName());
+            Assert.assertEquals(p.getLastName(), p2.getLastName());
+            assertEquals(p.getAddress(), p2.getAddress());
+        }
 
-	}
+    }
 
-	private void assertEquals(AddressType a, AddressType a2) {
-		if (a == null) {
-			Assert.assertNull(a2);
-		} else {
-			Assert.assertNotNull(a);
-			Assert.assertEquals(a.getId(), a2.getId());
-			Assert.assertEquals(a.getCity(), a2.getCity());
-			Assert.assertEquals(a.getStreet(), a2.getStreet());
-			Assert.assertEquals(a.getZipCode(), a2.getZipCode());
-			assertEquals(a.getCountry(), a2.getCountry());
-		}
-	}
+    private void assertEquals(AddressType a, AddressType a2) {
+        if (a == null) {
+            Assert.assertNull(a2);
+        } else {
+            Assert.assertNotNull(a);
+            Assert.assertEquals(a.getId(), a2.getId());
+            Assert.assertEquals(a.getCity(), a2.getCity());
+            Assert.assertEquals(a.getStreet(), a2.getStreet());
+            Assert.assertEquals(a.getZipCode(), a2.getZipCode());
+            assertEquals(a.getCountry(), a2.getCountry());
+        }
+    }
 
-	private void assertEquals(CountryType country, CountryType country2) {
-		if (country == null) {
-			Assert.assertNull(country2);
-		} else {
-			Assert.assertNotNull(country);
-			Assert.assertEquals(country.getId(), country2.getId());
-			Assert.assertEquals(country.getName(), country2.getName());
-			Assert.assertEquals(country.getCode(), country2.getCode());
-		}
-	}
+    private void assertEquals(CountryType country, CountryType country2) {
+        if (country == null) {
+            Assert.assertNull(country2);
+        } else {
+            Assert.assertNotNull(country);
+            Assert.assertEquals(country.getId(), country2.getId());
+            Assert.assertEquals(country.getName(), country2.getName());
+            Assert.assertEquals(country.getCode(), country2.getCode());
+        }
+    }
 
 }
